@@ -1,13 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { assets } from '../../public/assets/assets';
 import { AppContext } from './AppContext';
 import { motion } from 'framer-motion';
 
 const Nav = () => {
-    const { user, setshowLogin } = useContext(AppContext);
+    const { user, logout, credit, setshowLogin } = useContext(AppContext);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [showLogout, setShowLogout] = useState(false);
+useEffect(() => {
+  console.log("credit is "+credit);
+  console.log(user);
+}, [credit, user])
 
     return (
         <nav className="fixed top-0 left-0 flex items-center justify-between px-4 py-3 w-full z-50 bg-gradient-to-b from-gray-950/90 via-gray-900/80 to-transparent text-white shadow-sm">
@@ -32,10 +36,10 @@ const Nav = () => {
                     <>
                         <Link to="/buy" className="flex items-center gap-2 px-4 py-2 bg-lime-400 rounded-3xl hover:bg-lime-500 font-semibold transition-colors">
                             <img src={"./assets/credit_star.svg"} alt="" />
-                            <span>Credit left</span>
+                            <span>Credit left : {credit}</span>
                         </Link>
                         <div className="flex items-center gap-2 relative">
-                            <span>Hi rechard</span>
+                            <span>Hi {user.name}</span>
                             <div className="relative">
                                 <img
                                     src={assets.profile_icon}
@@ -46,7 +50,7 @@ const Nav = () => {
                                 />
                                 {showLogout && (
                                     <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-32 bg-gray-900 text-white text-center text-sm rounded shadow-lg py-2 z-20">
-                                        <button className="w-full text-left px-4 py-2 hover:bg-gray-800">Logout</button>
+                                        <button onClick={logout} className="w-full text-left px-4 py-2 hover:bg-gray-800">Logout</button>
                                     </div>
                                 )}
                             </div>
@@ -73,7 +77,7 @@ const Nav = () => {
                         <>
                             <Link to="/buy" className="flex items-center gap-2 px-4 py-2 bg-lime-400 rounded-3xl hover:bg-lime-500 font-semibold transition-colors w-11/12 justify-center">
                                 <img src={"./assets/credit_star.svg"} alt="" />
-                                <span>Credit left</span>
+                                <span>Credit left :{credit}</span>
                             </Link>
                             <div className="flex flex-col items-center gap-2">
                                 <img
@@ -82,14 +86,14 @@ const Nav = () => {
                                     alt=""
                                     className="cursor-pointer rounded-full border-2 border-lime-400"
                                     onClick={() => setShowLogout((prev) => !prev)}
-                                    />
-                                    <span>Hi rechard</span>
+                                />
+                                <span>Hi {user.name}</span>
                                 {showLogout && (
                                     <div className="w-32 bg-gray-900 text-white text-center text-sm rounded shadow-lg py-2 z-20 mt-2">
                                         <button className="w-full text-left px-4 py-2 hover:bg-gray-800">Logout</button>
                                         <Link to="/buy" className="flex items-center gap-1 py-2 px-4 bg-lime-400 rounded-3xl hover:bg-lime-500 font-semibold transition-colors mt-2">
                                             <img src={"./assets/credit_star.svg"} alt="" />
-                                            <span>Credit left: 1</span>
+                                            <span>Credit left: {credit}</span>
                                         </Link>
                                     </div>
                                 )}

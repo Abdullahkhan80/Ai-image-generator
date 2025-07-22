@@ -19,7 +19,7 @@ const registerUser = async (req, res) => {
         };
         const newUser = new UserModel(userData);
         const savedUser = await newUser.save();
-        const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+        const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET, );
         res.json({
             success: true,
             token,
@@ -41,19 +41,19 @@ const loginUser = async (req, res) => {
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (isMatch) {
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
             res.json({
                 success: true,
                 token,
-                user: { name: user.name, },
+                user: { name: user.name },
             });
         } else {
-            return res.json({ success: false, message: "Invalid credentials" });
+            return res.json({ success: false, message: "Invalid password or email try again" });
         }
 
     } catch (error) {
         console.error("Error logging in user:", error);
-        res.json({ success: false, message: error.message });
+        res.json({ success: false, message: "from start" });
     }
 }
 
