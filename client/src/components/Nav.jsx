@@ -8,10 +8,8 @@ const Nav = () => {
     const { user, logout, credit, setshowLogin } = useContext(AppContext);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [showLogout, setShowLogout] = useState(false);
-useEffect(() => {
-  console.log("credit is "+credit);
-  console.log(user);
-}, [credit, user])
+
+    console.log("Nav credit:", credit);
 
     return (
         <nav className="fixed top-0 left-0 flex items-center justify-between px-4 py-3 w-full z-50 bg-gradient-to-b from-gray-950/90 via-gray-900/80 to-transparent text-white shadow-sm">

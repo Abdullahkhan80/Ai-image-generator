@@ -13,7 +13,8 @@ export const generateImage = async (req, res) => {
 
         if (user.creditBalance <= 0) {
             return res.json({ success: false, message: "Insufficient credits", creditBalance: user.creditBalance });
-        } const formData = new FormData();
+        }
+        const formData = new FormData();
         formData.append('prompt', prompt);
 
         const response = await axios.post('https://clipdrop-api.co/text-to-image/v1', formData, {
@@ -25,10 +26,12 @@ export const generateImage = async (req, res) => {
 
         const base64Image = Buffer.from(response.data, 'binary').toString('base64');
         const resultImage = `data:image/png;base64,${base64Image}`;
-        await UserModel.findByIdAndUpdate(userId._id, { creditBalance: user.creditBalance - 1 });
+        await UserModel.findByIdAndUpdate(userId, { creditBalance: user.creditBalance - 1 });
         res.json({
-            success: true, message: "Image generated successfully",
-            creditBalance: user.creditBalance - 1, resultImage
+            success: true,
+            message: "Image generated successfully",
+            credits: user.creditBalance - 1,
+            resultImage
         });
 
 
