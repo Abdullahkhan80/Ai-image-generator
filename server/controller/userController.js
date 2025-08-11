@@ -53,7 +53,7 @@ const loginUser = async (req, res) => {
 
     } catch (error) {
         console.error("Error logging in user:", error);
-        res.json({ success: false, message: "from start" });
+        res.json({ success: false, message: "something went wrong please try again"})
     }
 }
 

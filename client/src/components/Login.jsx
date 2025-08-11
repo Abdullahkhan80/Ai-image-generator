@@ -3,7 +3,7 @@ import { AppContext } from './AppContext';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 const Login = () => {
-    const { setshowLogin, setToken,loadCredit, setuser, backendUrl } = useContext(AppContext);
+    const { setshowLogin, setToken, setloader, loadCredit, setuser, backendUrl } = useContext(AppContext);
     const [isLogin, setIsLogin,] = useState(true);
 
     useEffect(() => {
@@ -18,12 +18,14 @@ const Login = () => {
     const [password, setPassword] = useState("")
 
 
-    
+
     const formhandler = async (e) => {
         e.preventDefault();
+        setloader(true)
         try {
             const url = backendUrl.endsWith('/') ? backendUrl : backendUrl + '/';
             if (isLogin) {
+
                 const { data } = await axios.post(url + "api/user/login", { email, password });
                 if (data.success) {
                     setToken(data.token);
@@ -31,6 +33,7 @@ const Login = () => {
                     localStorage.setItem("Authorization", data.token);
                     await loadCredit(); // <-- Add this line
                     toast.success("Login successful");
+                    setloader(false)
                     setshowLogin(false);
                 } else {
                     toast.error(data.message || "Login failed");
@@ -44,12 +47,14 @@ const Login = () => {
                     console.log("signed up ");
                     toast.success("Sign Up successful");
                     setshowLogin(false);
+                    setloader(false)
                 } else {
                     toast.error(data.message || "Sign Up failed");
                 }
             }
         } catch (error) {
             console.error(error); // For debugging
+            setloader(false)
             if (error.response && error.response.data && error.response.data.message) {
                 toast.error(error.response.data.message);
             } else if (error.message) {
@@ -58,6 +63,7 @@ const Login = () => {
                 toast.error("An error occurred. Please try again.");
             }
         }
+        setloader(false)
     };
 
     return (

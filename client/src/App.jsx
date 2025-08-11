@@ -9,7 +9,9 @@ import Login from './components/Login';
 import { AppContext } from './components/AppContext'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from './components/loader'
 const App = () => {
+  const {loader } =useContext(AppContext)
   const { showLogin } = useContext(AppContext)
   return (
 
@@ -17,6 +19,7 @@ const App = () => {
       <Router>
         <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
         <Nav />
+        {loader && <Loader/>}
         {showLogin && <Login />}
         <Routes>
           <Route path="/" element={<Home />} />

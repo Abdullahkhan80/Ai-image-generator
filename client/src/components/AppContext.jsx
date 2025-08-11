@@ -9,6 +9,7 @@ export const AppContextProvider = (props) => {
   const backendUrl= import.meta.env.VITE_BACKEND_URL;
   const [credit, setcredit] = useState(0)
   const [token, setToken] = useState(localStorage.getItem("token") );
+  const [loader, setloader] = useState(false)
 
  
  const loadCredit=async ()=> {
@@ -18,6 +19,7 @@ export const AppContextProvider = (props) => {
     if (res.data.success) {
       setcredit(res.data.credits);
       setuser(res.data.user);
+      setloader(false);
     }
   } catch (error) {
     console.log(error);
@@ -75,7 +77,8 @@ useEffect(() => {
     showLogin, setshowLogin,
     token, setToken,
     loadCredit, logout,
-    generateImage
+    generateImage,
+    loader, setloader
 
   };
 

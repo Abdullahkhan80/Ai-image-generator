@@ -6,7 +6,7 @@ const Generate = () => {
   const [isLoadded, setisLoadded] = useState(false)
   const [input, setinput] = useState("")
   const [image, setimage] = useState(null)
-  const { generateImage, user, setshowLogin } = useContext(AppContext);
+  const { generateImage, user,setloader, setshowLogin } = useContext(AppContext);
 
   useEffect(() => {
     if (!user) {
@@ -20,15 +20,24 @@ const Generate = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    setloader(true)
     if (!input) {
       toast.error("Please enter a prompt");
+      setloader(false)
+      setisLoadded(false);
+      setimage(null);
       return;
     }
+      
     if (input) {
+      
       const image = await generateImage(input); // Assuming generateImage is a function that fetches the image based on the input
+      
       if (image) {
+
         setimage(image);
         setisLoadded(true);
+        setloader(false)
       }
     }
   }
